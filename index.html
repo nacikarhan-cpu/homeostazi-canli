@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canlılarda Homeostazi - Naci Karhan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        .option-btn {
+            transition: all 0.2s ease;
+            border: 2px solid #e2e8f0;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+
+        .correct {
+            background-color: #10b981 !important;
+            color: white !important;
+            border-color: #059669 !important;
+        }
+
+        .incorrect {
+            background-color: #ef4444 !important;
+            color: white !important;
+            border-color: #dc2626 !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .badge-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div id="app" class="max-w-3xl mx-auto glass-card overflow-hidden">
+        <!-- Giriş Ekranı -->
+        <div id="welcome-screen" class="p-8 text-center fade-in">
+            <div class="mb-6">
+                <i class="fas fa-microscope text-6xl text-blue-600 mb-4"></i>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Canlılarda Homeostazi</h1>
+                <p class="text-gray-600 italic underline">"Vücudumuzun Muazzam Dengesi"</p>
+            </div>
+            
+            <div class="bg-blue-50 p-6 rounded-xl mb-8 text-left border-l-4 border-blue-500">
+                <h2 class="font-bold text-blue-800 mb-2 underline">Merhaba Değerli Arkadaşlar!</h2>
+                <p class="text-gray-700 leading-relaxed">
+                    Bu gün sizinle 2024 MEB müfredatına tam uyumlu bir yolculuğa çıkıyoruz. 
+                    <br><br>
+                    ✨ <b>Önemli:</b> Bu test her başladığında sorular karışık olarak gelir, böylece her denemede gerçek bir sınav deneyimi yaşarsın!
+                </p>
+                <ul class="mt-4 space-y-2 text-sm text-gray-600">
+                    <li><i class="fas fa-random text-purple-500 mr-2"></i>Her Seferinde Karışık Soru Sırası</li>
+                    <li><i class="fas fa-clock text-blue-500 mr-2"></i>Canlı Kronometre Takibi</li>
+                    <li><i class="fas fa-award text-yellow-500 mr-2"></i>Başarı Rozeti Sistemi</li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <button onclick="startExplore()" class="bg-indigo-600 text-white font-bold py-4 px-8 rounded-xl hover:bg-indigo-700 transition shadow-lg">
+                    <i class="fas fa-book-open mr-2"></i>Konuyu Keşfet (Özet)
+                </button>
+                <button onclick="startQuiz()" class="bg-green-600 text-white font-bold py-4 px-8 rounded-xl hover:bg-green-700 transition shadow-lg">
+                    <i class="fas fa-play mr-2"></i>Kendini Dene (Testi Başlat)
+                </button>
+            </div>
+
+            <footer class="mt-12 text-gray-400 text-xs">
+                Tasarım: Naci Karhan
+            </footer>
+        </div>
+
+        <!-- Keşfet Bölümü -->
+        <div id="explore-screen" class="hidden p-8 fade-in">
+            <button onclick="showMain()" class="text-blue-600 mb-4 hover:underline"><i class="fas fa-arrow-left mr-1"></i> Ana Menü</button>
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Homeostazi Nedir?</h2>
+            
+            <div class="space-y-6 text-gray-700 overflow-y-auto max-h-[60vh] pr-2">
+                <section class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+                    <h3 class="font-bold text-lg mb-2">Tanım:</h3>
+                    <p>Değişen dış çevre koşullarına rağmen, hücrelerin ve vücudun <b>iç çevresini sabit tutma</b> çabasına <b>Homeostazi</b> denir.</p>
+                </section>
+
+                <section>
+                    <h3 class="font-bold text-blue-600 mb-2">Temel Bilgi:</h3>
+                    <p>Homeostazi tek hücrelilerden çok hücrelilere kadar tüm canlıların ortak özelliğidir. Enzimlerin çalışması için bu denge (pH, sıcaklık) şarttır.</p>
+                </section>
+
+                <section class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-indigo-700 mb-2">Naci Hoca Notu:</h3>
+                    <p class="italic font-semibold text-sm">"Sorular her seferinde karışık gelecek. Sadece cevabı değil, mantığı öğrenmeye çalış!"</p>
+                </section>
+            </div>
+            
+            <button onclick="startQuiz()" class="mt-8 w-full bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition">
+                Hemen Teste Başla
+            </button>
+        </div>
+
+        <!-- Quiz Ekranı -->
+        <div id="quiz-screen" class="hidden p-6 fade-in">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-bold text-sm">
+                    Soru: <span id="current-q-num">1</span>/25
+                </div>
+                <div class="flex items-center gap-4 text-gray-600">
+                    <span id="timer" class="font-mono font-bold text-xl text-indigo-600"><i class="fas fa-clock mr-1"></i> 00:00</span>
+                    <button onclick="confirmExit()" class="text-red-500 hover:text-red-700 text-sm"><i class="fas fa-sign-out-alt"></i> Ayrıl</button>
+                </div>
+            </div>
+
+            <div id="question-container" class="mb-8">
+                <h3 id="question-text" class="text-xl font-semibold text-gray-800 leading-relaxed mb-6"></h3>
+                <div id="options-grid" class="grid grid-cols-1 gap-3"></div>
+            </div>
+
+            <div id="feedback-panel" class="hidden p-4 rounded-xl mb-4 text-center font-bold"></div>
+            <div id="explanation-panel" class="hidden p-4 bg-gray-100 rounded-xl mb-6 text-sm text-gray-700">
+                <h4 class="font-bold text-blue-600 mb-1">Neden Yanlıştı?</h4>
+                <p id="explanation-text"></p>
+            </div>
+
+            <button id="next-btn" class="hidden w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition shadow-lg">
+                Sıradaki Soru <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-8">
+                <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <footer class="mt-4 text-center text-gray-400 text-xs">Tasarım: Naci Karhan</footer>
+        </div>
+
+        <!-- Sonuç Ekranı -->
+        <div id="result-screen" class="hidden p-8 text-center fade-in">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">Sınav Tamamlandı!</h2>
+            <div id="badge-container" class="mb-6 badge-pulse"></div>
+
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-green-50 p-4 rounded-xl border border-green-200">
+                    <p class="text-green-600 text-sm">Doğru</p>
+                    <p id="final-correct" class="text-2xl font-bold text-green-700">0</p>
+                </div>
+                <div class="bg-red-50 p-4 rounded-xl border border-red-200">
+                    <p class="text-red-600 text-sm">Yanlış</p>
+                    <p id="final-wrong" class="text-2xl font-bold text-red-700">0</p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 col-span-2">
+                    <p class="text-blue-600 text-sm">Başarı Yüzdesi</p>
+                    <p id="final-percent" class="text-3xl font-bold text-blue-700">0%</p>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="startQuiz()" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">
+                    <i class="fas fa-redo mr-2"></i>Yeniden Başla (Karıştırarak)
+                </button>
+                <button onclick="showMain()" class="flex-1 bg-gray-200 text-gray-800 font-bold py-3 rounded-xl hover:bg-gray-300 transition">
+                    <i class="fas fa-home mr-2"></i>Ana Menü
+                </button>
+            </div>
+            <footer class="mt-8 text-gray-400 text-xs">Tasarım: Naci Karhan</footer>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white p-6 rounded-2xl max-w-sm w-full text-center shadow-2xl">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Çıkmak İstiyor Musun?</h3>
+            <p class="text-gray-600 mb-6">Yarı yolda bırakma, iç dengeyi kurmalısın!</p>
+            <div class="flex gap-3">
+                <button onclick="hideModal()" class="flex-1 bg-gray-100 py-2 rounded-lg font-bold">Kal</button>
+                <button onclick="location.reload()" class="flex-1 bg-red-500 text-white py-2 rounded-lg font-bold">Çık</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const originalQuestions = [
+            {
+                q: "İnsan vücudunda kanın pH değerinin yaklaşık 7.4 seviyesinde tutulması hangi homeostatik mekanizma ile sağlanır?",
+                options: ["Sadece terleme", "Bikarbonat tampon sistemi", "Sadece glikojen sentezi", "Sadece yağ depolama", "Kemiklerin büyümesi"],
+                correct: 1,
+                explanation: "Kan pH'ı karbonik asit ve bikarbonat iyonları arasındaki dengeyle (tampon çözeltiler) sabit tutulur."
+            },
+            {
+                q: "Vücut ısısı normalin üzerine çıktığında hipotalamus hangi yanıtı oluşturur?",
+                options: ["Titreme başlatma", "Kılcal damarları daraltma", "Ter bezlerini uyarma", "Tiroksin salgısını artırma", "Metabolizmayı hızlandırma"],
+                correct: 2,
+                explanation: "Sıcaklık artınca vücut ısıyı atmak için terleme yapar."
+            },
+            {
+                q: "Kanın ozmotik basıncı arttığında böbreklerden su geri emilimini artıran hormon hangisidir?",
+                options: ["İnsülin", "Kalsitonin", "ADH (Vazopressin)", "Adrenalin", "Oksitosin"],
+                correct: 2,
+                explanation: "ADH, böbrek kanallarından suyun geri emilmesini sağlayarak ozmotik basıncı dengeler."
+            },
+            {
+                q: "Aşağıdakilerden hangisi bir negatif geribildirim (feedback) örneğidir?",
+                options: ["Kan şekeri artınca insülin salgılanması", "Doğumda oksitosin artışının sancıyı artırması", "Yaralanmada kanın pıhtılaşma faktörlerini hızlandırması", "Meyvelerin olgunlaşırken daha fazla etilen üretmesi", "Duygusal heyecanda adrenalin patlaması"],
+                correct: 0,
+                explanation: "Negatif geribildirimde sistem etkiyi azaltmaya çalışır."
+            },
+            {
+                q: "Soğuk havada kılcal damarların daralmasının (vazokonstriksiyon) temel amacı nedir?",
+                options: ["Tansiyonu düşürmek", "Vücut ısısını korumak", "Daha fazla terlemek", "Glikoz tüketimini azaltmak", "Sindirim hızını artırmak"],
+                correct: 1,
+                explanation: "Damarlar daralarak ısının yüzeyden kaybolmasını engeller."
+            },
+            {
+                q: "Kanda kalsiyum miktarı normalin altına düştüğünde hangi hormon devreye girer?",
+                options: ["Kalsitonin", "Parathormon", "İnsülin", "Glukagon", "Aldosteron"],
+                correct: 1,
+                explanation: "Parathormon kemikten kana kalsiyum geçişini sağlar."
+            },
+            {
+                q: "Canlılarda homeostazinin sağlanmasında aşağıdakilerden hangisi doğrudan görev almaz?",
+                options: ["Sinir sistemi", "Endokrin sistem", "Boşaltım sistemi", "Hücre zarındaki protein sentezi hızı", "Solunum sistemi"],
+                correct: 3,
+                explanation: "Protein sentez hızı spesifik bir hücresel olaydır, doğrudan yönetimsel değildir."
+            },
+            {
+                q: "İnsanda kanın süzülmesi yoluyla kanın kimyasal kompozisyonunu düzenleyen temel organ hangisidir?",
+                options: ["Kalp", "Karaciğer", "Böbrek", "Mide", "Beyincik"],
+                correct: 2,
+                explanation: "Böbrekler üreyi süzer ve iyon dengesini sağlar."
+            },
+            {
+                q: "Hücre dışı sıvının sodyum dengesini düzenleyen korteks hormonu hangisidir?",
+                options: ["Kortizol", "Aldosteron", "Adrenalin", "TSH", "Östrojen"],
+                correct: 1,
+                explanation: "Aldosteron sodyum geri emilimini sağlar."
+            },
+            {
+                q: "Açlık durumunda kan şekerini yükseltmek için glikojenin glikoza dönüşümünü sağlayan hormon hangisidir?",
+                options: ["İnsülin", "Glukagon", "Kalsitonin", "STH", "Gastrin"],
+                correct: 1,
+                explanation: "Glukagon kan şekerini artırır."
+            },
+            {
+                q: "Egzersiz yapan bir bireyde CO2 artışına bağlı olarak ne gözlenir?",
+                options: ["Kan pH'ı düşer ve soluk hızı artar", "Kan pH'ı yükselir ve soluk yavaşlar", "Isı azalır", "İnsülin salgısı tavan yapar", "Alyuvar sayısı azalır"],
+                correct: 0,
+                explanation: "CO2 kanı asitleştirir, bu da soluk alışverişini hızlandırır."
+            },
+            {
+                q: "Vücut termostatının (hipotalamus) ayarının enfeksiyonla değişmesi neye yol açar?",
+                options: ["Kan şekerinin düşmesine", "Titreme ve yüksek ateşe", "Hafıza kaybına", "Boy uzamasına", "Saç dökülmesine"],
+                correct: 1,
+                explanation: "Pirojenler hipotalamusu uyararak vücut ısısını yükseltir."
+            },
+            {
+                q: "Böbrekler kanın pH'ını nasıl dengeler?",
+                options: ["Sadece şeker atarak", "H+ iyonlarını atıp HCO3 emerek", "Vitamin üreterek", "Safra salgılayarak", "Mide asidini kontrol ederek"],
+                correct: 1,
+                explanation: "H+ iyonu salgılanması kanın asitlik derecesini düşürür."
+            },
+            {
+                q: "İnsanda vücut ısısını dengeleyen merkez neresidir?",
+                options: ["Omurilik", "Beyincik", "Hipotalamus", "Talamus", "Orta Beyin"],
+                correct: 2,
+                explanation: "Hipotalamus vücudun ana kontrol ve denge merkezidir."
+            },
+            {
+                q: "Aşırı tuzlu beslenen birinde hangi hormon artar?",
+                options: ["İnsülin", "Glukagon", "ADH", "Kortizol", "STH"],
+                correct: 2,
+                explanation: "Tuz ozmotik basıncı artırır, ADH suyun geri emilmesini sağlar."
+            },
+            {
+                q: "İç dengenin bozulması sonucu görülen kronik duruma ne denir?",
+                options: ["Metabolizma", "Homeostazi", "Hastalık", "Adaptasyon", "Modifikasyon"],
+                correct: 2,
+                explanation: "Homeostazi bozulursa vücutta patolojik (hastalık) durumlar başlar."
+            },
+            {
+                q: "Hangi geribildirim tipi daha yaygındır ve dengeyi korur?",
+                options: ["Pozitif Geribildirim", "Negatif Geribildirim", "Sıfır Geribildirim", "Nötr Geribildirim", "Sürekli Geribildirim"],
+                correct: 1,
+                explanation: "Negatif geribildirim değişkeni normale çekmeye çalışır."
+            },
+            {
+                q: "Canlılar neden boşaltım yapar?",
+                options: ["Enerji üretmek için", "Homeostazi sağlamak için", "Hücre bölünmesi için", "Daha hızlı koşmak için", "Besin üretmek için"],
+                correct: 1,
+                explanation: "Atıkların uzaklaştırılması iç dengenin korunması için temel şarttır."
+            },
+            {
+                q: "İstemli kas hareketleri homeostazi merkezi tarafından mı yönetilir?",
+                options: ["Evet", "Hayır (Uç Beyin)", "Sadece uykuda", "Sadece koşarken", "Bebeklikte evet"],
+                correct: 1,
+                explanation: "İstemli hareketler uç beyin (kabuk) kontrolündedir."
+            },
+            {
+                q: "Hormonlar kana ne zaman salgılanır?",
+                options: ["Dengede bir sapma olduğunda", "Sadece gece", "Sadece yemek yerken", "Sürekli aynı miktarda", "Sadece kışın"],
+                correct: 0,
+                explanation: "Hormonlar ihtiyaç halinde, dengenin saptığı durumlarda salgılanır."
+            },
+            {
+                q: "Claude Bernard'ın homeostazi ile ilgili ünlü tanımı nedir?",
+                options: ["İç çevrenin sabitliği", "Hayat bir kavgadır", "Hücre bölünmesi", "Zayıfın elenmesi", "Doğal seçilim"],
+                correct: 0,
+                explanation: "İç çevrenin sabit tutulması kavramını ilk Claude Bernard ortaya atmıştır."
+            },
+            {
+                q: "Su içmeyen bir bireyde ne olur?",
+                options: ["Kan hacmi artar", "İdrar yoğunluğu artar", "ADH azalır", "Tansiyon yükselir", "Ağız kurumaz"],
+                correct: 1,
+                explanation: "Vücut suyu korumak için daha derişik (yoğun) idrar oluşturur."
+            },
+            {
+                q: "Vücut ısısı düşen bir kişide kıl kökleri nasıl davranır?",
+                options: ["Dökülür", "Dikleşir (Isı yalıtımı)", "Yassılaşır", "Terler", "Beyazlar"],
+                correct: 1,
+                explanation: "Kılların dikleşmesi deri yüzeyinde bir hava tabakası tutarak ısı kaybını azaltmaya çalışır."
+            },
+            {
+                q: "Glikozun kan düzeyini kim ayarlar?",
+                options: ["Pankreas", "Böbrek Üstü Bezi", "Karaciğer", "Hepsi ortak çalışır", "Sadece Mide"],
+                correct: 3,
+                explanation: "Pankreas (insülin/glukagon), karaciğer (depo) ve böbrek üstü (adrenalin) ortaklaşa çalışır."
+            },
+            {
+                q: "Sistemlerin koordinasyonunu kim sağlar?",
+                options: ["Sadece Kalp", "Denetleyici ve Düzenleyici Sistemler", "Sadece Kaslar", "Sadece Deri", "Bağırsaklar"],
+                correct: 1,
+                explanation: "Sinir sistemi ve endokrin sistem koordinasyonu sağlayarak homeostaziyi korur."
+            }
+        ];
+
+        let questions = [];
+        let currentQuestion = 0;
+        let score = 0;
+        let wrongAnswers = 0;
+        let timerSeconds = 0;
+        let timerInterval;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function showMain() {
+            document.querySelectorAll('#app > div').forEach(div => div.classList.add('hidden'));
+            document.getElementById('welcome-screen').classList.remove('hidden');
+            clearInterval(timerInterval);
+        }
+
+        function startExplore() {
+            document.querySelectorAll('#app > div').forEach(div => div.classList.add('hidden'));
+            document.getElementById('explore-screen').classList.remove('hidden');
+        }
+
+        function startQuiz() {
+            // Soruları karıştırıyoruz
+            questions = shuffleArray([...originalQuestions]);
+            
+            // Seçenekleri de karıştırmak istersen:
+            questions.forEach(q => {
+                const correctOptText = q.options[q.correct];
+                shuffleArray(q.options);
+                q.correct = q.options.indexOf(correctOptText);
+            });
+
+            currentQuestion = 0;
+            score = 0;
+            wrongAnswers = 0;
+            timerSeconds = 0;
+            
+            document.querySelectorAll('#app > div').forEach(div => div.classList.add('hidden'));
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            
+            startTimer();
+            loadQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+                const secs = String(timerSeconds % 60).padStart(2, '0');
+                document.getElementById('timer').innerHTML = `<i class="fas fa-clock mr-1"></i> ${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const qData = questions[currentQuestion];
+            document.getElementById('current-q-num').innerText = currentQuestion + 1;
+            document.getElementById('question-text').innerText = qData.q;
+            document.getElementById('progress-bar').style.width = ((currentQuestion + 1) / questions.length * 100) + '%';
+            
+            const optionsGrid = document.getElementById('options-grid');
+            optionsGrid.innerHTML = '';
+            
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn w-full p-4 rounded-xl text-left font-medium flex items-center bg-white shadow-sm';
+                btn.innerHTML = `<span class="bg-gray-100 w-8 h-8 rounded-full flex items-center justify-center mr-3 font-bold text-gray-500">${String.fromCharCode(65 + idx)}</span> ${opt}`;
+                btn.onclick = () => selectOption(idx);
+                optionsGrid.appendChild(btn);
+            });
+
+            document.getElementById('feedback-panel').classList.add('hidden');
+            document.getElementById('explanation-panel').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+        }
+
+        function selectOption(idx) {
+            const qData = questions[currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            const feedback = document.getElementById('feedback-panel');
+            feedback.classList.remove('hidden');
+
+            if (idx === qData.correct) {
+                buttons[idx].classList.add('correct');
+                score++;
+                feedback.innerHTML = "🔔 TEBRİKLER! (Doğru)";
+                feedback.className = 'p-4 rounded-xl mb-4 text-center font-bold bg-green-100 text-green-700';
+            } else {
+                buttons[idx].classList.add('incorrect');
+                buttons[qData.correct].classList.add('correct');
+                wrongAnswers++;
+                feedback.innerHTML = "❌ DİKKAT! (Yanlış)";
+                feedback.className = 'p-4 rounded-xl mb-4 text-center font-bold bg-red-100 text-red-700';
+                
+                document.getElementById('explanation-panel').classList.remove('hidden');
+                document.getElementById('explanation-text').innerText = qData.explanation;
+            }
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        document.getElementById('next-btn').onclick = () => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        };
+
+        function finishQuiz() {
+            clearInterval(timerInterval);
+            document.querySelectorAll('#app > div').forEach(div => div.classList.add('hidden'));
+            document.getElementById('result-screen').classList.remove('hidden');
+
+            const percent = Math.round((score / questions.length) * 100);
+            document.getElementById('final-correct').innerText = score;
+            document.getElementById('final-wrong').innerText = wrongAnswers;
+            document.getElementById('final-percent').innerText = percent + '%';
+
+            let badge = '';
+            if (percent === 100) badge = '🏆 Altın DNA Rozeti';
+            else if (percent >= 80) badge = '🥈 Gümüş Hücre Rozeti';
+            else if (percent >= 50) badge = '🥉 Bronz Denge Rozeti';
+            else badge = '🌱 Tohum Rozeti';
+            
+            document.getElementById('badge-container').innerHTML = `
+                <div class="text-6xl mb-2">🎓</div>
+                <p class="text-2xl font-bold text-indigo-700">${badge}</p>
+            `;
+        }
+
+        function confirmExit() { document.getElementById('modal').classList.remove('hidden'); }
+        function hideModal() { document.getElementById('modal').classList.add('hidden'); }
+    </script>
+</body>
+</html>
